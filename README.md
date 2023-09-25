@@ -7,6 +7,8 @@ rysgally-project is a mini project management software (like Microsoft Project) 
 ````
 git clone https://github.com/Hojagulyyev/rysgally-project.git
 
+cd rysgally-project
+
 virtualenv venv
 
 . source/bin/activate
