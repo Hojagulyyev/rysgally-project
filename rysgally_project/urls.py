@@ -9,7 +9,7 @@ def index(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
-    path('commits/', include("apps.commits.urls", namespace="commits")),
-    path('users/', include("apps.users.urls", namespace="users")),
+    path('rysgally-project/', index),
+    path('rysgally-project/commits/', include("apps.commits.urls", namespace="commits")),
+    path('rysgally-project/users/', include("apps.users.urls", namespace="users")),
 ]
