@@ -43,7 +43,7 @@
         <h2 class="pb-2">Commits</h2>
         {% for commit in my_commits %}
             <div class="col-4">
-                <div class="card mb-3">
+                <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
                       <div class="card-body">
                             <h5 class="card-title">{{ commit.created_datetime }}</h5>
                             <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
@@ -58,7 +58,7 @@
             <h2 class="pb-2">{{ user }}</h2>
                 {% for commit in user.recent_commits %}
                 <div class="col-4">
-                    <div class="card mb-3">
+                    <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
                           <div class="card-body">
                                 <h5 class="card-title">{{ commit.created_datetime }}</h5>
                                 <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
