@@ -1,0 +1,92 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyDictCreationInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyMethodMayBeStaticInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="10">
+            <item index="0" class="java.lang.String" itemvalue="cryptography" />
+            <item index="1" class="java.lang.String" itemvalue="packaging" />
+            <item index="2" class="java.lang.String" itemvalue="gunicorn" />
+            <item index="3" class="java.lang.String" itemvalue="typing_extensions" />
+            <item index="4" class="java.lang.String" itemvalue="argon2-cffi-bindings" />
+            <item index="5" class="java.lang.String" itemvalue="argon2-cffi" />
+            <item index="6" class="java.lang.String" itemvalue="django-pgcrypto-fields" />
+            <item index="7" class="java.lang.String" itemvalue="coverage" />
+            <item index="8" class="java.lang.String" itemvalue="pycryptodomex" />
+            <item index="9" class="java.lang.String" itemvalue="django-appconf" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E501" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyRedeclarationInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredNames">
+        <list>
+          <option value="type" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyStatementEffectInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyTypeCheckerInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyTypeHintsInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="django.db.models.fields.related.ForeignKey.shard" />
+          <option value="apps.categories.models.Category.organization_id" />
+          <option value="apps.products.models.Product.category_id" />
+          <option value="apps.nomenclatures.models.Nomenclature.product_id" />
+          <option value="apps.organizations.models.Organization.id" />
+          <option value="apps.account_settings.models.AccountSettings.account" />
+          <option value="apps.inventories.models.Inventory.store_id" />
+          <option value="apps.inventories.models.Inventory.nomenclature_id" />
+          <option value="django.db.models.fields.DecimalField.__sub__" />
+          <option value="apps.accounts.models.Account.id" />
+          <option value="apps.stores.models.Store.id" />
+          <option value="apps.inventories.models.Inventory.DoesNotExist" />
+          <option value="apps.invoices.models.Invoice.id" />
+          <option value="apps.inventories.models.Inventory.id" />
+          <option value="core.models.person.Person.objects" />
+          <option value="core.cache.cache.hset" />
+          <option value="core.cryptography.fields.EncryptedDecimalField.__sub__" />
+          <option value="apps.customers.models.Customer.id" />
+          <option value="apps.invoice_nomenclatures.models.InvoiceNomenclature.nomenclature_id" />
+          <option value="apps.wallets.models.Wallet.id" />
+          <option value="apps.invoice_items.models.InvoiceItem.inventory_id" />
+          <option value="apps.installment_sales.models.InstallmentSale.installment_set" />
+          <option value="apps.installment_sales.models.InstallmentSale.store_id" />
+          <option value="apps.installment_sales.models.InstallmentSale.employee_id" />
+          <option value="apps.installment_sales.models.InstallmentSale.invoice_id" />
+          <option value="apps.installment_sales.models.InstallmentSale.customer_id" />
+          <option value="apps.installment_sales.models.InstallmentSale.id" />
+          <option value="apps.account_settings.models.AccountSettings.selected_store_id" />
+          <option value="apps.nomenclatures.models.Nomenclature.id" />
+          <option value="apps.categories.models.Category.id" />
+          <option value="apps.products.models.Product.id" />
+          <option value="apps.roles.models.Role.id" />
+          <option value="apps.accounts.models.Account.DoesNotExist" />
+          <option value="apps.invoices.models.Invoice.invoice_transaction" />
+          <option value="apps.invoices.models.Invoice.invoice_transaction_set" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

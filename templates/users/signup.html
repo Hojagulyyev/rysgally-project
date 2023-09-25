@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+</head>
+<body>
+    <h1>signup</h1>
+    <form action="{% url 'users:signup_user' %}" method="post">
+        {% csrf_token %}
+        <p>
+            username
+            <input name="username" placeholder="username">
+        </p>
+        <p>
+            password
+            <input name="password" placeholder="password">
+        </p>
+        <button type="submit">signup</button>
+        <a href="{% url 'users:login_view' %}">Already have an account! Sign In</a>
+    </form>
+</body>
+</html>
