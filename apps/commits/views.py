@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.db.models.functions import Length
-from django.db.models import Q, Prefetch, Count
+from django.db.models import Prefetch, Count
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -56,8 +55,6 @@ def commits_view(request):
 @login_required
 def detail_view(request, id: int):
     commit = Commit.objects.get(id=id)
-
-    # ========== VALIDATION ==========
 
     context = {
         "commit": commit,

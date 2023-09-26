@@ -1,5 +1,8 @@
+# from dotenv import load_dotenv
 from pathlib import Path
 import os
+
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,9 +73,14 @@ WSGI_APPLICATION = "rysgally_project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+        "ENGINE": "django.db.backends.postgresql",
+        "CONN_MAX_AGE": 600,
+        "NAME": "rysgally_project",
+        "USER": "rysgally_hyzmat_user",
+        "PASSWORD": "adminmodelsrysgallyhyzmat",
+        "HOST": "localhost",
+        "PORT": 5432,
+    },
 }
 
 
