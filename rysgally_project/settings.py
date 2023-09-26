@@ -114,11 +114,15 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Server config
+
+# used when nginx has multiple server locations
+NGINX_PRELOCATION = "rysgally-project"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "rysgally_project/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 # STATIC_ROOT = BASE_DIR / "static"
 
@@ -132,10 +136,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = "redis://localhost:6379/1"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
-# Server config
-
-# used when nginx has multiple server locations
-NGINX_PRELOCATION = "rysgally-project"
 
 # Business logic
 
