@@ -122,7 +122,7 @@ NGINX_PRELOCATION = "rysgally-project"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "rysgally_project/static/"
+STATIC_URL = "rysgally-project/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 # STATIC_ROOT = BASE_DIR / "static"
 
