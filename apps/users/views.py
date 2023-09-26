@@ -9,6 +9,8 @@ from django.contrib.auth import (
 from django.contrib import messages
 from django.urls import reverse
 
+from apps.commits.services import get_commit_statistic_by_user
+
 
 # ========== VIEWS ==========
 
@@ -21,6 +23,27 @@ def login_view(request):
         "users": User.objects.all()
     }
     return render(request, "users/login.html", context)
+
+
+@login_required
+def detail_view(request, id):
+    (
+        user_commits,
+        user_total_commits,
+        user_closed_commits,
+        user_undone_commits,
+        user_commit_progress_in_percentage
+    ) = get_commit_statistic_by_user(user_id=id)
+
+    context = {
+        "user": User.objects.get(id=id),
+        "user_commits": user_commits.order_by("-id"),
+        "user_total_commits": user_total_commits,
+        "user_closed_commits": user_closed_commits,
+        "user_undone_commits": user_undone_commits,
+        "user_commit_progress_in_percentage": user_commit_progress_in_percentage,
+    }
+    return render(request, "users/detail.html", context)
 
 
 # ========== INTERACTORS ==========

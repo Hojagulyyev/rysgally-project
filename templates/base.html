@@ -24,7 +24,7 @@
               </ul>
               <form action="{% url 'users:logout' %}" method="post" class="d-flex" >
                   {% csrf_token %}
-                  <button class="btn btn-dark mx-4" type="button">{{ request.user }}</button>
+                  <a href="{% url 'users:detail_view' request.user.id %}" class="btn btn-dark mx-4" type="button">{{ request.user }}</a>
                   <button class="btn btn-danger" type="submit">Logout</button>
               </form>
             </div>

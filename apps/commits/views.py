@@ -11,6 +11,7 @@ from rysgally_project.settings import (
     MY_COMMITS_PAGE_SIZE,
     OTHER_COMMITS_PAGE_SIZE,
 )
+from .services import get_commit_statistic_by_user
 from .models import Commit
 
 
@@ -18,16 +19,15 @@ from .models import Commit
 
 @login_required
 def commits_view(request):
-    my_commits = Commit.objects.filter(user=request.user).annotate(body_len=Length("body"))
-    total_commits = my_commits.count()
-    closed_commits = my_commits.filter(body_len__gte=COMMIT_BODY_MIN_LENGTH).count()
-    undone_commits = my_commits.filter(
-        Q(body=None)
-        | Q(body_len__lt=COMMIT_BODY_MIN_LENGTH)
-    ).count()
-    commit_progress_in_percentage = (closed_commits / total_commits) * 100
+    (
+        user_commits,
+        user_total_commits,
+        user_closed_commits,
+        user_undone_commits,
+        user_commit_progress_in_percentage
+    ) = get_commit_statistic_by_user(request.user.id)
 
-    users = User.objects \
+    other_users = User.objects \
         .exclude(id=request.user.id) \
         .prefetch_related(
             Prefetch(
@@ -39,12 +39,12 @@ def commits_view(request):
         .annotate(commit_count=Count('commit'))
 
     context = {
-        "my_commits": my_commits.order_by("-id")[:MY_COMMITS_PAGE_SIZE],
-        "users": users,
-        "total_commits": total_commits,
-        "closed_commits": closed_commits,
-        "undone_commits": undone_commits,
-        "commit_progress_in_percentage": round(commit_progress_in_percentage, 1)
+        "my_commits": user_commits.order_by("-id")[:MY_COMMITS_PAGE_SIZE],
+        "my_total_commits": user_total_commits,
+        "my_closed_commits": user_closed_commits,
+        "my_undone_commits": user_undone_commits,
+        "my_commit_progress_in_percentage": user_commit_progress_in_percentage,
+        "other_users": other_users,
     }
     return render(request, "commits/index.html", context)
 

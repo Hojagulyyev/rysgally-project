@@ -10,6 +10,7 @@ app_name = 'users'
 urlpatterns = [
     path('signup-view/', views.signup_view, name="signup_view"),
     path('login-view/', views.login_view, name="login_view"),
+    path('<int:id>/', views.detail_view, name="detail_view"),
 ]
 
 # Interactors
