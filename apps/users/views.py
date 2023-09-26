@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (
     authenticate,
-    login,
-    logout,
+    login as django_login,
+    logout as django_logout,
 )
 from django.contrib import messages
 from django.urls import reverse
@@ -72,11 +72,11 @@ def login(request):
             f"?username={username}"
         )
 
-    login(request, user)
+    django_login(request, user)
     return redirect('commits:commits_view')
 
 
 @login_required
 def logout(request):
-    logout(request)
+    django_logout(request)
     return redirect('users:login_view')
