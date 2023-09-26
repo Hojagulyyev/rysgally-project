@@ -22,7 +22,7 @@
                   <a class="nav-link active" aria-current="page" href="{% url 'commits:commits_view' %}">Home</a>
                 </li>
               </ul>
-              <form action="{% url 'users:logout_user' %}" method="post" class="d-flex" >
+              <form action="{% url 'users:logout' %}" method="post" class="d-flex" >
                   {% csrf_token %}
                   <button class="btn btn-dark mx-4" type="button">{{ request.user }}</button>
                   <button class="btn btn-danger" type="submit">Logout</button>

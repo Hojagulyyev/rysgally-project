@@ -5,10 +5,17 @@ from . import views
 
 app_name = 'users'
 
+# Views
+
 urlpatterns = [
     path('signup-view/', views.signup_view, name="signup_view"),
     path('login-view/', views.login_view, name="login_view"),
-    path('signup-user/', views.signup_user, name="signup_user"),
-    path('login-user/', views.login_user, name="login_user"),
-    path('logout-user/', views.logout_user, name="logout_user"),
+]
+
+# Interactors
+
+urlpatterns += [
+    path('signup/', views.signup, name="signup"),
+    path('login/', views.login, name="login"),
+    path('logout/', views.logout, name="logout"),
 ]

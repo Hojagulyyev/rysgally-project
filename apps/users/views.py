@@ -25,7 +25,7 @@ def login_view(request):
 
 # ========== INTERACTORS ==========
 
-def signup_user(request):
+def signup(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
@@ -36,7 +36,7 @@ def signup_user(request):
     return redirect('users:login_view')
 
 
-def login_user(request):
+def login(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
@@ -54,6 +54,6 @@ def login_user(request):
 
 
 @login_required
-def logout_user(request):
+def logout(request):
     logout(request)
     return redirect('users:login_view')

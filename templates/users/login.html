@@ -11,7 +11,7 @@
             <li>{{ message }}</li>
         {% endfor %}
     </ul>
-    <form action="{% url 'users:login_user' %}" method="post">
+    <form action="{% url 'users:login' %}" method="post">
         {% csrf_token %}
         <p>
             username

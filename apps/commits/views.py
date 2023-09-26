@@ -50,7 +50,7 @@ def commits_view(request):
 
 
 @login_required
-def commit_detail_view(request, id: int):
+def detail_view(request, id: int):
     commit = Commit.objects.get(id=id)
 
     # ========== VALIDATION ==========
@@ -64,7 +64,7 @@ def commit_detail_view(request, id: int):
 # ========== INTERACTORS ==========
 
 @login_required
-def update_commit(request, id: int):
+def update(request, id: int):
     commit = Commit.objects.get(id=id)
     body = request.POST.get("body", "")
 
