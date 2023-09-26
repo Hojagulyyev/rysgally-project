@@ -1,46 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="container">
     <nav class="pt-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'commits:commits_view' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Commits</li>
+            <li class="breadcrumb-item active" aria-current="page">My Commits</li>
         </ol>
     </nav>
+
+    {% if not request.GET.username %}
     <div class="row pt-4">
-        <h2 class="pb-2">Commit Statistic</h2>
+        <h2 class="pb-2">My Commit Statistic</h2>
         <div class="row">
             <div class="col-4">
-                <div class="p-3 mb-3 text-bg-primary rounded-3">Total Commits: {{ total_commits }}</div>
+                <div class="p-3 mb-3 text-bg-primary rounded-3">My Total Commits: {{ my_total_commits }}</div>
             </div>
             <div class="col-4">
-                <div class="p-3 mb-3 text-bg-success rounded-3">Closed Commits: {{ closed_commits }}</div>
+                <div class="p-3 mb-3 text-bg-success rounded-3">My Closed Commits: {{ my_closed_commits }}</div>
             </div>
             <div class="col-4">
-                <div class="p-3 mb-3 text-bg-danger rounded-3">Undone Commits: {{ undone_commits }}</div>
+                <div class="p-3 mb-3 text-bg-danger rounded-3">My Undone Commits: {{ my_undone_commits }}</div>
             </div>
         </div>
     </div>
     <div class="row pt-2">
-        <h2 class="pb-2">Commit Progress</h2>
-        <div class="progress my-2" role="progressbar" aria-label="Example with label" aria-valuenow="{{commit_progress_in_percentage}}" aria-valuemin="0" aria-valuemax="100">
+        <h2 class="pb-2">My Commit Progress</h2>
+        <div class="progress my-2" role="progressbar" aria-label="Example with label" aria-valuenow="{{ my_commit_progress_in_percentage }}" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar progress-bar-striped progress-bar-animated
-              {% if commit_progress_in_percentage < 50 %}
+              {% if my_commit_progress_in_percentage < 50 %}
                 bg-danger
-              {% elif commit_progress_in_percentage > 50 and commit_progress_in_percentage < 98 %}
+              {% elif my_commit_progress_in_percentage > 50 and my_commit_progress_in_percentage < 90 %}
                 bg-warning
-              {% elif commit_progress_in_percentage > 98 %}
+              {% elif my_commit_progress_in_percentage > 90 %}
                 bg-success
               {% endif %}"
-               style="width: {{commit_progress_in_percentage}}%"
+               style="width: {{ my_commit_progress_in_percentage }}%"
           >
-              {{commit_progress_in_percentage}}%
+              {{my_commit_progress_in_percentage}}%
           </div>
         </div>
     </div>
     <div class="row pt-4">
-        <h2 class="pb-2">Commits</h2>
+        <h2 class="pb-2">My Commits</h2>
         {% for commit in my_commits %}
             <div class="col-4">
                 <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
@@ -53,22 +56,37 @@
             </div>
         {% endfor %}
     </div>
-    {% for user in users %}
-        <div class="row pt-5">
-            <h2 class="pb-2">{{ user }}</h2>
-                {% for commit in user.recent_commits %}
-                <div class="col-4">
-                    <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
-                          <div class="card-body">
-                                <h5 class="card-title">{{ commit.created_datetime }}</h5>
-                                <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
-                                <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
-                          </div>
+    {% endif %}
+
+    <div class="pt-5 pb-4">
+        <hr>
+        <h2>Other Users</h2>
+        <hr>
+    </div>
+
+    {% if other_users %}
+        {% for user in other_users %}
+            <div class="row pt-2">
+                    <a href="{% url 'users:detail_view' user.id %}">
+                        <h2 class="pb-2">{{ user }}</h2>
+                    </a>
+                    {% for commit in user.recent_commits %}
+                    <div class="col-4">
+                        <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
+                              <div class="card-body">
+                                    <h5 class="card-title">{{ commit.created_datetime }}</h5>
+                                    <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
+                                    <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
+                              </div>
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-        </div>
-    {% endfor %}
+                    {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No user found</div>
+    {% endif %}
+
 </div>
 
 {% endblock %}

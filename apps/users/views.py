@@ -3,11 +3,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import (
     authenticate,
-    login,
-    logout,
+    login as django_login,
+    logout as django_logout,
 )
 from django.contrib import messages
 from django.urls import reverse
+
+from apps.commits.services import get_commit_statistic_by_user
 
 
 # ========== VIEWS ==========
@@ -23,9 +25,30 @@ def login_view(request):
     return render(request, "users/login.html", context)
 
 
+@login_required
+def detail_view(request, id):
+    (
+        user_commits,
+        user_total_commits,
+        user_closed_commits,
+        user_undone_commits,
+        user_commit_progress_in_percentage
+    ) = get_commit_statistic_by_user(user_id=id)
+
+    context = {
+        "user": User.objects.get(id=id),
+        "user_commits": user_commits.order_by("-id"),
+        "user_total_commits": user_total_commits,
+        "user_closed_commits": user_closed_commits,
+        "user_undone_commits": user_undone_commits,
+        "user_commit_progress_in_percentage": user_commit_progress_in_percentage,
+    }
+    return render(request, "users/detail.html", context)
+
+
 # ========== INTERACTORS ==========
 
-def signup_user(request):
+def signup(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
@@ -36,7 +59,7 @@ def signup_user(request):
     return redirect('users:login_view')
 
 
-def login_user(request):
+def login(request):
     username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
@@ -49,11 +72,11 @@ def login_user(request):
             f"?username={username}"
         )
 
-    login(request, user)
+    django_login(request, user)
     return redirect('commits:commits_view')
 
 
 @login_required
-def logout_user(request):
-    logout(request)
+def logout(request):
+    django_logout(request)
     return redirect('users:login_view')
