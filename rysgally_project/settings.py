@@ -1,8 +1,8 @@
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 from pathlib import Path
 import os
 
-# load_dotenv()
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-*pk56if#)ln^13e3oj@*5-300#iijnb+7kesh9q!rm*lf4-=0o"
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ["DEBUG"]
 
 ALLOWED_HOSTS = ["*"]
 
@@ -74,12 +74,12 @@ WSGI_APPLICATION = "rysgally_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "CONN_MAX_AGE": 600,
-        "NAME": "rysgally_project",
-        "USER": "rysgally_hyzmat_user",
-        "PASSWORD": "adminmodelsrysgallyhyzmat",
-        "HOST": "localhost",
-        "PORT": 5432,
+        "NAME": os.environ["DB_NAME"],
+        "CONN_MAX_AGE": float(os.environ["DB_CONN_MAX_AGE"]),
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"],
     },
 }
 
