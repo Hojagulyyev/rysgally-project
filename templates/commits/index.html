@@ -9,6 +9,8 @@
             <li class="breadcrumb-item active" aria-current="page">My Commits</li>
         </ol>
     </nav>
+
+    {% if not request.GET.username %}
     <div class="row pt-4">
         <h2 class="pb-2">My Commit Statistic</h2>
         <div class="row">
@@ -54,29 +56,37 @@
             </div>
         {% endfor %}
     </div>
+    {% endif %}
+
     <div class="pt-5 pb-4">
         <hr>
         <h2>Other Users</h2>
         <hr>
     </div>
-    {% for user in other_users %}
-        <div class="row pt-2">
-                <a href="{% url 'users:detail_view' user.id %}">
-                    <h2 class="pb-2">{{ user }}</h2>
-                </a>
-                {% for commit in user.recent_commits %}
-                <div class="col-4">
-                    <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
-                          <div class="card-body">
-                                <h5 class="card-title">{{ commit.created_datetime }}</h5>
-                                <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
-                                <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
-                          </div>
+
+    {% if other_users %}
+        {% for user in other_users %}
+            <div class="row pt-2">
+                    <a href="{% url 'users:detail_view' user.id %}">
+                        <h2 class="pb-2">{{ user }}</h2>
+                    </a>
+                    {% for commit in user.recent_commits %}
+                    <div class="col-4">
+                        <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
+                              <div class="card-body">
+                                    <h5 class="card-title">{{ commit.created_datetime }}</h5>
+                                    <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
+                                    <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
+                              </div>
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-        </div>
-    {% endfor %}
+                    {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No user found</div>
+    {% endif %}
+
 </div>
 
 {% endblock %}

@@ -19,6 +19,9 @@ from .models import Commit
 
 @login_required
 def commits_view(request):
+
+    username = request.GET.get("username", "")
+
     (
         user_commits,
         user_total_commits,
@@ -29,6 +32,7 @@ def commits_view(request):
 
     other_users = User.objects \
         .exclude(id=request.user.id) \
+        .filter(username__icontains=username) \
         .prefetch_related(
             Prefetch(
                 'commit_set',
