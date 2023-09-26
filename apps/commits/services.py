@@ -15,10 +15,15 @@ def get_commit_statistic_by_user(user_id: int):
     user_undone_commits = user_commits.filter(
         Q(body=None) | Q(body_len__lt=COMMIT_BODY_MIN_LENGTH)
     ).count()
-    user_commit_progress_in_percentage = round(
-        (user_closed_commits / user_total_commits) * 100,
-        ROUND_DECIMAL_PLACES,
-    )
+
+    try:
+        user_commit_progress_in_percentage = round(
+            (user_closed_commits / user_total_commits) * 100,
+            ROUND_DECIMAL_PLACES,
+        )
+    except ZeroDivisionError:
+        user_commit_progress_in_percentage = 0
+
     return (
         user_commits,
         user_total_commits,
