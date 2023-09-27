@@ -123,8 +123,11 @@ NGINX_PRELOCATION = "rysgally-project"
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "rysgally-project/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-# STATIC_ROOT = BASE_DIR / "static"
+
+if DEBUG:
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+else:
+    STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
