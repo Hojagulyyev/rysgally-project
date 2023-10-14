@@ -49,7 +49,10 @@
             <div class="col-4">
                 <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
                       <div class="card-body">
-                            <h5 class="card-title">{{ commit.created_datetime|date:"d.m.Y" }}</h5>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ commit.created_datetime|date:"d.m.Y" }}</h5>
+                                <span>{{ commit.bonus }} ⭐</span>
+                            </div>
                             <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
                             <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
                       </div>
