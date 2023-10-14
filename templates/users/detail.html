@@ -32,7 +32,7 @@
           <div class="progress-bar progress-bar-striped progress-bar-animated
               {% if user_commit_progress_in_percentage < 50 %}
                 bg-danger
-              {% elif user_commit_progress_in_percentage > 50 and user_commit_progress_in_percentage < 90 %}
+              {% elif user_commit_progress_in_percentage >= 50 and user_commit_progress_in_percentage <= 90 %}
                 bg-warning
               {% elif user_commit_progress_in_percentage > 90 %}
                 bg-success
