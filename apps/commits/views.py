@@ -67,7 +67,7 @@ def detail_view(request, id: int):
 @login_required
 def update(request, id: int):
     commit = Commit.objects.get(id=id)
-    body = request.POST.get("body", "")
+    body = request.POST.get("body", "").strip()
 
     # ========== VALIDATION ==========
 
@@ -75,8 +75,8 @@ def update(request, id: int):
         messages.error(request, "You aren't author of commit")
         return redirect("commits:commits_view")
 
-    if len(body) < COMMIT_BODY_MIN_LENGTH:
-        messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} character")
+    if len(body) < COMMIT_BODY_MIN_LENGTH and len(body) < len(commit.body):
+        messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} or older body")
         return redirect(
             f"{reverse('commits:detail_view', kwargs={'id': id})}"
             f"?body={body}"
