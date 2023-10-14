@@ -5,6 +5,7 @@ from django.db.models import Prefetch, Count
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils import timezone
+from django.db.models import Sum
 
 from rysgally_project.settings import (
     COMMIT_BODY_MIN_LENGTH,
@@ -26,6 +27,7 @@ def commits_view(request):
     (
         user_commits,
         user_total_commits,
+        user_total_bonus,
         user_closed_commits,
         user_undone_commits,
         user_commit_progress_in_percentage
@@ -41,11 +43,15 @@ def commits_view(request):
                 to_attr='recent_commits'
             )
         ) \
-        .annotate(commit_count=Count('commit'))
+        .annotate(
+            commit_count=Count('commit'),
+            total_bonus=Sum('commit__bonus'),
+        )
 
     context = {
         "my_commits": user_commits.order_by("-id")[:MY_COMMITS_PAGE_SIZE],
         "my_total_commits": user_total_commits,
+        "my_total_bonus": user_total_bonus,
         "my_closed_commits": user_closed_commits,
         "my_undone_commits": user_undone_commits,
         "my_commit_progress_in_percentage": user_commit_progress_in_percentage,

@@ -24,7 +24,10 @@
         </div>
     </div>
     <div class="row pt-2">
-        <h2 class="pb-2">{{ user }} Commit Progress</h2>
+        <div class="d-flex justify-content-between">
+            <h2 class="pb-2">{{ user }} Commit Progress</h2>
+            <h2>{{ user_total_bonus }} ⭐</h2>
+        </div>
         <div class="progress my-2" role="progressbar" aria-label="Example with label" aria-valuenow="{{ user_commit_progress_in_percentage }}" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar progress-bar-striped progress-bar-animated
               {% if user_commit_progress_in_percentage < 50 %}

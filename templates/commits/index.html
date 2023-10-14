@@ -26,7 +26,10 @@
         </div>
     </div>
     <div class="row pt-2">
-        <h2 class="pb-2">My Commit Progress</h2>
+        <div class="d-flex justify-content-between">
+            <h2 class="pb-2">My Commit Progress</h2>
+            <h2>{{ my_total_bonus }} ⭐</h2>
+        </div>
         <div class="progress my-2" role="progressbar" aria-label="Example with label" aria-valuenow="{{ my_commit_progress_in_percentage }}" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-bar progress-bar-striped progress-bar-animated
               {% if my_commit_progress_in_percentage < 50 %}
@@ -70,9 +73,12 @@
     {% if other_users %}
         {% for user in other_users %}
             <div class="row pt-2">
-                    <a href="{% url 'users:detail_view' user.id %}">
-                        <h2 class="pb-2">{{ user }}</h2>
-                    </a>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'users:detail_view' user.id %}">
+                            <h2 class="pb-2">{{ user }}</h2>
+                        </a>
+                        <h2>{{ user.total_bonus }} ⭐</h2>
+                    </div>
                     {% for commit in user.recent_commits %}
                     <div class="col-4">
                         <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
