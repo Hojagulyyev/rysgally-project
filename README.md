@@ -1,6 +1,11 @@
 # Rysgally Project
 
-rysgally-project is a mini project management software (like Microsoft Project) that helps you manage employee reports efficiently in v0.1.
+rysgally-project is a mini project management software (like Microsoft Project)
+
+# Features
+
+- v0.1 - manage employees' commits
+- v1.1 - rating technology (commit bonus)
 
 # Installation
 
