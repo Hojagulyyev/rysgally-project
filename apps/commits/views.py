@@ -4,11 +4,14 @@ from django.urls import reverse
 from django.db.models import Prefetch, Count
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.utils import timezone
+from django.db.models import Sum
 
 from rysgally_project.settings import (
     COMMIT_BODY_MIN_LENGTH,
     MY_COMMITS_PAGE_SIZE,
     OTHER_COMMITS_PAGE_SIZE,
+    MAX_COMMIT_BONUS,
 )
 from .services import get_commit_statistic_by_user
 from .models import Commit
@@ -24,6 +27,7 @@ def commits_view(request):
     (
         user_commits,
         user_total_commits,
+        user_total_bonus,
         user_closed_commits,
         user_undone_commits,
         user_commit_progress_in_percentage
@@ -39,11 +43,15 @@ def commits_view(request):
                 to_attr='recent_commits'
             )
         ) \
-        .annotate(commit_count=Count('commit'))
+        .annotate(
+            commit_count=Count('commit'),
+            total_bonus=Sum('commit__bonus'),
+        )
 
     context = {
         "my_commits": user_commits.order_by("-id")[:MY_COMMITS_PAGE_SIZE],
         "my_total_commits": user_total_commits,
+        "my_total_bonus": user_total_bonus,
         "my_closed_commits": user_closed_commits,
         "my_undone_commits": user_undone_commits,
         "my_commit_progress_in_percentage": user_commit_progress_in_percentage,
@@ -67,7 +75,7 @@ def detail_view(request, id: int):
 @login_required
 def update(request, id: int):
     commit = Commit.objects.get(id=id)
-    body = request.POST.get("body", "")
+    body = request.POST.get("body", "").strip()
 
     # ========== VALIDATION ==========
 
@@ -75,8 +83,8 @@ def update(request, id: int):
         messages.error(request, "You aren't author of commit")
         return redirect("commits:commits_view")
 
-    if len(body) < COMMIT_BODY_MIN_LENGTH:
-        messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} character")
+    if len(body) < COMMIT_BODY_MIN_LENGTH and len(body) < len(commit.body):
+        messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} or older body")
         return redirect(
             f"{reverse('commits:detail_view', kwargs={'id': id})}"
             f"?body={body}"
@@ -84,7 +92,14 @@ def update(request, id: int):
 
     # ========== PROCESS ==========
 
+    days_difference = (timezone.now() - commit.created_datetime).days
+
+    if days_difference in range(MAX_COMMIT_BONUS):
+        current_bonus = MAX_COMMIT_BONUS - days_difference
+        if current_bonus > commit.bonus:
+            commit.bonus += current_bonus
+
     commit.body = body
-    commit.save(update_fields=["body"])
+    commit.save(update_fields=["body", "bonus"])
 
     return redirect('commits:commits_view')

@@ -30,6 +30,7 @@ def detail_view(request, id):
     (
         user_commits,
         user_total_commits,
+        user_total_bonus,
         user_closed_commits,
         user_undone_commits,
         user_commit_progress_in_percentage
@@ -39,6 +40,7 @@ def detail_view(request, id):
         "user": User.objects.get(id=id),
         "user_commits": user_commits.order_by("-id"),
         "user_total_commits": user_total_commits,
+        "user_total_bonus": user_total_bonus,
         "user_closed_commits": user_closed_commits,
         "user_undone_commits": user_undone_commits,
         "user_commit_progress_in_percentage": user_commit_progress_in_percentage,
