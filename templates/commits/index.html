@@ -31,7 +31,7 @@
           <div class="progress-bar progress-bar-striped progress-bar-animated
               {% if my_commit_progress_in_percentage < 50 %}
                 bg-danger
-              {% elif my_commit_progress_in_percentage > 50 and my_commit_progress_in_percentage < 90 %}
+              {% elif my_commit_progress_in_percentage >= 50 and my_commit_progress_in_percentage <= 90 %}
                 bg-warning
               {% elif my_commit_progress_in_percentage > 90 %}
                 bg-success
