@@ -49,8 +49,8 @@ def detail_view(request, id):
 # ========== INTERACTORS ==========
 
 def signup(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
+    username = request.POST.get('username', '').strip()
+    password = request.POST.get('password', '').strip()
 
     User.objects.create_user(
         username=username,
@@ -60,8 +60,8 @@ def signup(request):
 
 
 def login(request):
-    username = request.POST.get('username', '')
-    password = request.POST.get('password', '')
+    username = request.POST.get('username', '').strip()
+    password = request.POST.get('password', '').strip()
 
     user = authenticate(username=username, password=password)
 
