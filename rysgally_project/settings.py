@@ -142,10 +142,11 @@ CELERY_BROKER_URL = "redis://localhost:6379/1"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/1"
 
 
-# Business logic
+# Business logic consts
 
 LOGIN_URL = f"/{NGINX_PRELOCATION}/users/login-view/"
 COMMIT_BODY_MIN_LENGTH = 20
 MY_COMMITS_PAGE_SIZE = 6
 OTHER_COMMITS_PAGE_SIZE = 3
 ROUND_DECIMAL_PLACES = 1
+MAX_COMMIT_BONUS = 5

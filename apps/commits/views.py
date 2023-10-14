@@ -4,11 +4,13 @@ from django.urls import reverse
 from django.db.models import Prefetch, Count
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.utils import timezone
 
 from rysgally_project.settings import (
     COMMIT_BODY_MIN_LENGTH,
     MY_COMMITS_PAGE_SIZE,
     OTHER_COMMITS_PAGE_SIZE,
+    MAX_COMMIT_BONUS,
 )
 from .services import get_commit_statistic_by_user
 from .models import Commit
@@ -84,7 +86,14 @@ def update(request, id: int):
 
     # ========== PROCESS ==========
 
+    days_difference = (timezone.now() - commit.created_datetime).days
+
+    if days_difference in range(MAX_COMMIT_BONUS):
+        current_bonus = MAX_COMMIT_BONUS - days_difference
+        if current_bonus > commit.bonus:
+            commit.bonus += current_bonus
+
     commit.body = body
-    commit.save(update_fields=["body"])
+    commit.save(update_fields=["body", "bonus"])
 
     return redirect('commits:commits_view')

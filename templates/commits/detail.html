@@ -11,7 +11,10 @@
     <form action="{% url 'commits:update' commit.id %}" method="post" class="py-4">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="body" class="form-label">Body</label>
+            <div class="d-flex justify-content-between">
+                <label for="body" class="form-label">Body</label>
+                <span>{{ commit.bonus }} ⭐</span>
+            </div>
             <textarea name="body" class="form-control" id="body" rows="23">{% if request.GET.body %}{{ request.GET.body }}{% else %}{{ commit.body }}{% endif %}</textarea>
         </div>
         <button class="btn btn-primary" type="submit">Update</button>
