@@ -10,4 +10,5 @@ def create_daily_commit():
         Commit.objects.create(
             user=user,
             body="",
+            bonus=0,
         )
