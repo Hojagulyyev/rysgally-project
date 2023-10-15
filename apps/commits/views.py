@@ -83,7 +83,7 @@ def update(request, id: int):
         messages.error(request, "You aren't author of commit")
         return redirect("commits:commits_view")
 
-    if len(body) < COMMIT_BODY_MIN_LENGTH and len(body) < len(commit.body):
+    if len(body) < COMMIT_BODY_MIN_LENGTH or len(body) < len(commit.body):
         messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} or older body")
         return redirect(
             f"{reverse('commits:detail_view', kwargs={'id': id})}"
