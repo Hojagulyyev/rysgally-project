@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Rysgally Project</title>
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet"
+          href="{% static 'css/bootstrap/bootstrap.min.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'commits:commits_view' %}">Rysgally Project</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active"
+                 aria-current="page"
+                 href="{% url 'commits:commits_view' %}">Home</a>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <form action="{% url 'commits:commits_view' %}" method="get">
+              <input name="username"
+                     value="{{ request.GET.username }}"
+                     placeholder="Search User"
+                     class="form-control mr-sm-2" />
+            </form>
+            <a href="{% url 'users:detail_view' request.user.id %}"
+               class="btn btn-dark mx-4"
+               type="button">{{ request.user }}</a>
+            <form action="{% url 'users:logout' %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-danger" type="submit">Logout</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container pt-4">
+      {% for message in messages %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% block content %}
+    {% endblock content %}
+    <div class="container-fluid bg-dark pb-1 pt-4 mt-5 mb-0 text-center text-light">
+      <p>Copyright © 2023 RH Inc. All rights reserved.</p>
+      <p>Currently v1.1.0-beta.1</p>
+    </div>
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+  </body>
+</html>

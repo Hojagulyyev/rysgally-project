@@ -1,23 +1,31 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
-<div class="container">
-    <nav class="pt-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'commits:commits_view' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ commit.user }} : {{ commit.created_datetime }}</li>
-        </ol>
+  <div class="container">
+    <nav class="pt-5"
+         style="--bs-breadcrumb-divider: '>'"
+         aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'commits:commits_view' %}">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          {{ commit.user }} : {{ commit.created_datetime }}
+        </li>
+      </ol>
     </nav>
-    <form action="{% url 'commits:update' commit.id %}" method="post" class="py-4">
-        {% csrf_token %}
-        <div class="mb-3">
-            <div class="d-flex justify-content-between">
-                <label for="body" class="form-label">Body</label>
-                <span>{{ commit.bonus }} ⭐</span>
-            </div>
-            <textarea name="body" class="form-control" id="body" rows="23">{% if request.GET.body %}{{ request.GET.body }}{% else %}{{ commit.body }}{% endif %}</textarea>
+    <form action="{% url 'commits:update' commit.id %}"
+          method="post"
+          class="py-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <div class="d-flex justify-content-between">
+          <label for="body" class="form-label">Body</label>
+          <span>{{ commit.bonus }} ⭐</span>
         </div>
-        <button class="btn btn-primary" type="submit">Update</button>
+        <textarea name="body" class="form-control" id="body" rows="23">{% if request.GET.body %}{{ request.GET.body }}{% else %}{{ commit.body }}{% endif %}</textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Update</button>
     </form>
-</div>
+  </div>
 {% endblock content %}
