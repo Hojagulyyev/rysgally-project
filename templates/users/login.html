@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    
     <title>Signup</title>
-</head>
-<body>
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+  </head>
+  <body>
     <h1>login</h1>
     <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
+      {% for message in messages %}<li>{{ message }}</li>{% endfor %}
     </ul>
     <form action="{% url 'users:login' %}" method="post">
-        {% csrf_token %}
-        <p>
-            username
-            <input name="username" value="{{ request.GET.username }}" placeholder="username">
-        </p>
-        <p>
-            password
-            <input name="password" placeholder="password">
-        </p>
-        <button type="submit">login</button>
-        <a href="{% url 'users:signup_view' %}">Don't have an account yet? Sign Up</a>
+      {% csrf_token %}
+      <p>
+        username
+        <input name="username"
+               value="{{ request.GET.username }}"
+               placeholder="username" />
+      </p>
+      <p>
+        password
+        <input name="password" placeholder="password" />
+      </p>
+      <button type="submit">login</button>
+      <a href="{% url 'users:signup_view' %}">Don't have an account yet? Sign Up</a>
     </form>
-    <br>
+    <br />
 
     <h1>registered users</h1>
     <ol>
-        {% for user in users %}
-            <li>{{ user }}</li>
-        {% endfor %}
+      {% for user in users %}<li>{{ user }}</li>{% endfor %}
     </ol>
-</body>
+  </body>
 </html>

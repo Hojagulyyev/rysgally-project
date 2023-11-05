@@ -1,27 +1,25 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse
-from django.db.models import Prefetch, Count
-from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Count, Prefetch, Sum
+from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils import timezone
-from django.db.models import Sum
 
 from rysgally_project.settings import (
     COMMIT_BODY_MIN_LENGTH,
+    MAX_COMMIT_BONUS,
     MY_COMMITS_PAGE_SIZE,
     OTHER_COMMITS_PAGE_SIZE,
-    MAX_COMMIT_BONUS,
 )
-from .services import get_commit_statistic_by_user
+
 from .models import Commit
+from .services import get_commit_statistic_by_user
 
 
 # ========== VIEWS ==========
-
 @login_required
 def commits_view(request):
-
     username = request.GET.get("username", "")
 
     (
@@ -30,23 +28,24 @@ def commits_view(request):
         user_total_bonus,
         user_closed_commits,
         user_undone_commits,
-        user_commit_progress_in_percentage
+        user_commit_progress_in_percentage,
     ) = get_commit_statistic_by_user(request.user.id)
 
-    other_users = User.objects \
-        .exclude(id=request.user.id) \
-        .filter(username__icontains=username) \
+    other_users = (
+        User.objects.exclude(id=request.user.id)
+        .filter(username__icontains=username)
         .prefetch_related(
             Prefetch(
-                'commit_set',
-                queryset=Commit.objects.order_by('-id')[:OTHER_COMMITS_PAGE_SIZE],
-                to_attr='recent_commits'
+                "commit_set",
+                queryset=Commit.objects.order_by("-id")[:OTHER_COMMITS_PAGE_SIZE],
+                to_attr="recent_commits",
             )
-        ) \
-        .annotate(
-            commit_count=Count('commit'),
-            total_bonus=Sum('commit__bonus'),
         )
+        .annotate(
+            commit_count=Count("commit"),
+            total_bonus=Sum("commit__bonus"),
+        )
+    )
 
     context = {
         "my_commits": user_commits.order_by("-id")[:MY_COMMITS_PAGE_SIZE],
@@ -71,7 +70,6 @@ def detail_view(request, id: int):
 
 
 # ========== INTERACTORS ==========
-
 @login_required
 def update(request, id: int):
     commit = Commit.objects.get(id=id)
@@ -84,10 +82,11 @@ def update(request, id: int):
         return redirect("commits:commits_view")
 
     if len(body) < COMMIT_BODY_MIN_LENGTH or len(body) < len(commit.body):
-        messages.error(request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} or older body")
+        messages.error(
+            request, f"commit body is less than {COMMIT_BODY_MIN_LENGTH} or older body"
+        )
         return redirect(
-            f"{reverse('commits:detail_view', kwargs={'id': id})}"
-            f"?body={body}"
+            f"{reverse('commits:detail_view', kwargs={'id': id})}" f"?body={body}"
         )
 
     # ========== PROCESS ==========
@@ -102,4 +101,4 @@ def update(request, id: int):
     commit.body = body
     commit.save(update_fields=["body", "bonus"])
 
-    return redirect('commits:commits_view')
+    return redirect("commits:commits_view")

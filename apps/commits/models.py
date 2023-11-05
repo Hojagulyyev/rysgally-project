@@ -1,9 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 
 class Commit(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField(blank=True, null=True)
     bonus = models.PositiveSmallIntegerField(default=0)

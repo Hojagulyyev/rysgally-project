@@ -1,27 +1,22 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import (
-    authenticate,
-    login as django_login,
-    logout as django_logout,
-)
 from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as django_login
+from django.contrib.auth import logout as django_logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from apps.commits.services import get_commit_statistic_by_user
 
 
 # ========== VIEWS ==========
-
 def signup_view(request):
     return render(request, "users/signup.html")
 
 
 def login_view(request):
-    context = {
-        "users": User.objects.all()
-    }
+    context = {"users": User.objects.all()}
     return render(request, "users/login.html", context)
 
 
@@ -33,7 +28,7 @@ def detail_view(request, id):
         user_total_bonus,
         user_closed_commits,
         user_undone_commits,
-        user_commit_progress_in_percentage
+        user_commit_progress_in_percentage,
     ) = get_commit_statistic_by_user(user_id=id)
 
     context = {
@@ -49,36 +44,32 @@ def detail_view(request, id):
 
 
 # ========== INTERACTORS ==========
-
 def signup(request):
-    username = request.POST.get('username', '').strip()
-    password = request.POST.get('password', '').strip()
+    username = request.POST.get("username", "").strip()
+    password = request.POST.get("password", "").strip()
 
     User.objects.create_user(
         username=username,
         password=password,
     )
-    return redirect('users:login_view')
+    return redirect("users:login_view")
 
 
 def login(request):
-    username = request.POST.get('username', '').strip()
-    password = request.POST.get('password', '').strip()
+    username = request.POST.get("username", "").strip()
+    password = request.POST.get("password", "").strip()
 
     user = authenticate(username=username, password=password)
 
     if user is None:
         messages.error(request, "These credentials are incorrect")
-        return redirect(
-            f"{reverse('users:login_view')}"
-            f"?username={username}"
-        )
+        return redirect(f"{reverse('users:login_view')}" f"?username={username}")
 
     django_login(request, user)
-    return redirect('commits:commits_view')
+    return redirect("commits:commits_view")
 
 
 @login_required
 def logout(request):
     django_logout(request)
-    return redirect('users:login_view')
+    return redirect("users:login_view")

@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
-from pathlib import Path
 import os
+from pathlib import Path
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -29,11 +30,16 @@ INSTALLED_DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+
 INSTALLED_THIRD_PARTY_APPS = []
+
 INSTALLED_PROJECT_APPS = [
     "apps.commits",
 ]
-INSTALLED_APPS = INSTALLED_DJANGO_APPS + INSTALLED_THIRD_PARTY_APPS + INSTALLED_PROJECT_APPS
+
+INSTALLED_APPS = (
+    INSTALLED_DJANGO_APPS + INSTALLED_THIRD_PARTY_APPS + INSTALLED_PROJECT_APPS
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -123,8 +129,8 @@ NGINX_PRELOCATION = "rysgally-project"
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
 STATIC_URL = "rysgally-project/static/"

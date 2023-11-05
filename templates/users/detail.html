@@ -1,66 +1,85 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
 
-<div class="container">
-    <nav class="pt-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{% url 'commits:commits_view' %}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ user }}</li>
-        </ol>
+  <div class="container">
+    <nav class="pt-5"
+         style="--bs-breadcrumb-divider: '>'"
+         aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="{% url 'commits:commits_view' %}">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">{{ user }}</li>
+      </ol>
     </nav>
     <div class="row pt-4">
-        <h2 class="pb-2">{{ user }} Commit Statistic</h2>
-        <div class="row">
-            <div class="col-4">
-                <div class="p-3 mb-3 text-bg-primary rounded-3">{{ user }} Total Commits: {{ user_total_commits }}</div>
-            </div>
-            <div class="col-4">
-                <div class="p-3 mb-3 text-bg-success rounded-3">{{ user }} Closed Commits: {{ user_closed_commits }}</div>
-            </div>
-            <div class="col-4">
-                <div class="p-3 mb-3 text-bg-danger rounded-3">{{ user }} Undone Commits: {{ user_undone_commits }}</div>
-            </div>
-        </div>
-    </div>
-    <div class="row pt-2">
-        <div class="d-flex justify-content-between">
-            <h2 class="pb-2">{{ user }} Commit Progress</h2>
-            <h2>{{ user_total_bonus }} ⭐</h2>
-        </div>
-        <div class="progress my-2" role="progressbar" aria-label="Example with label" aria-valuenow="{{ user_commit_progress_in_percentage }}" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar progress-bar-striped progress-bar-animated
-              {% if user_commit_progress_in_percentage < 50 %}
-                bg-danger
-              {% elif user_commit_progress_in_percentage >= 50 and user_commit_progress_in_percentage <= 90 %}
-                bg-warning
-              {% elif user_commit_progress_in_percentage > 90 %}
-                bg-success
-              {% endif %}"
-               style="width: {{ user_commit_progress_in_percentage }}%"
-          >
-              {{ user_commit_progress_in_percentage }}%
+      <h2 class="pb-2">{{ user }} Commit Statistic</h2>
+      <div class="row">
+        <div class="col-4">
+          <div class="p-3 mb-3 text-bg-primary rounded-3">
+            {{ user }} Total Commits: {{ user_total_commits }}
           </div>
         </div>
+        <div class="col-4">
+          <div class="p-3 mb-3 text-bg-success rounded-3">
+            {{ user }} Closed Commits: {{ user_closed_commits }}
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="p-3 mb-3 text-bg-danger rounded-3">
+            {{ user }} Undone Commits: {{ user_undone_commits }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-2">
+      <div class="d-flex justify-content-between">
+        <h2 class="pb-2">{{ user }} Commit Progress</h2>
+        <h2>{{ user_total_bonus }} ⭐</h2>
+      </div>
+      <div class="progress my-2"
+           role="progressbar"
+           aria-label="Example with label"
+           aria-valuenow="{{ user_commit_progress_in_percentage }}"
+           aria-valuemin="0"
+           aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped progress-bar-animated
+                    {% if user_commit_progress_in_percentage < 50 %}
+                      bg-danger
+                    {% elif user_commit_progress_in_percentage >= 50 and user_commit_progress_in_percentage <= 90 %}
+                      bg-warning
+                    {% elif user_commit_progress_in_percentage > 90 %}
+                      bg-success
+                    {% endif %}"
+             style="width: {{ user_commit_progress_in_percentage }}%">
+          {{ user_commit_progress_in_percentage }}%
+        </div>
+      </div>
     </div>
     <div class="row pt-4">
-        <h2 class="pb-2">{{ user }} Commits</h2>
-        {% for commit in user_commits %}
-            <div class="col-4">
-                <div class="card mb-3 border {% if commit.body|length < 20 %} border-danger {% else %} border-primary {% endif %}">
-                      <div class="card-body">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="card-title">{{ commit.created_datetime|date:"d.m.Y" }}</h5>
-                                <span>{{ commit.bonus }} ⭐</span>
-                            </div>
-                            <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
-                            <a href="{% url 'commits:detail_view' commit.id %}" class="btn btn-primary">Detail</a>
-                      </div>
-                </div>
+      <h2 class="pb-2">{{ user }} Commits</h2>
+      {% for commit in user_commits %}
+        <div class="col-4">
+          <div class="card mb-3 border
+                      {% if commit.body|length < 20 %}
+                        border-danger
+                      {% else %}
+                        border-primary
+                      {% endif %}">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">{{ commit.created_datetime|date:"d.m.Y" }}</h5>
+                <span>{{ commit.bonus }} ⭐</span>
+              </div>
+              <p class="card-text" style="height: 6rem; overflow: hidden">{{ commit.body }}</p>
+              <a href="{% url 'commits:detail_view' commit.id %}"
+                 class="btn btn-primary">Detail</a>
             </div>
-        {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
     </div>
-</div>
-
+  </div>
 
 {% endblock content %}
