@@ -28,3 +28,7 @@ python manage.py createsuperuser
 
 python manage.py runserver
 ````
+
+# Contributing
+
+- continuation in [rp2 rapidly-growing open-source project and task management system](https://github.com/Hojagulyyev/rp2)
